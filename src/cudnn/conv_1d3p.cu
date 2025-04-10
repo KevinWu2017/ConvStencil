@@ -13,13 +13,28 @@
     }                                                       \
   }
 
-int main() {
+int main(int argc, char *argv[]) {
+    if (argc < 3) {
+        std::cerr << "Usage: " << argv[0] << " input_size time_iteration_size" << std::endl;
+        return 1;
+    }
+    int H = 1;
+    int W = 0;
+    int T = 0;
+    try {
+      W = std::stoi(argv[1]);
+      T = std::stoi(argv[2]);
+    } catch (const std::invalid_argument &e) {
+      std::cerr << "Invalid argument: cannot convert the parameter(s) to integer.\n";
+      return 1;
+    }
+    
     cudnnHandle_t cudnn;
     CHECK_CUDNN(cudnnCreate(&cudnn));
 
-    int H = 1;
-    int W = 10240000;
-    int T = 100000;
+    // int H = 1;
+    // int W = 10240000;
+    // int T = 100000;
     double *input_data_h;
     input_data_h = (double*)malloc(1 * 1 * H * W * sizeof(double));
 

@@ -29,15 +29,33 @@ do                                                    \
     }                                                       \
   }
 
-int main() {
+  int main(int argc, char *argv[]) {
+    if (argc < 5) {
+        std::cerr << "Usage: " << argv[0] << " input_size_of_first_dimension input_size_of_second_dimension input_size_of_third_dimension time_iteration_size" << std::endl;
+        return 1;
+    }
+    int H = 0;
+    int W = 0;
+    int L = 0;
+    int T = 0;
+    try {
+        H = std::stoi(argv[1]);
+        W = std::stoi(argv[2]);
+        L = std::stoi(argv[3]);
+        T = std::stoi(argv[4]);
+    } catch (const std::invalid_argument &e) {
+      std::cerr << "Invalid argument: cannot convert the parameter(s) to integer.\n";
+      return 1;
+    }
+
     cudnnHandle_t cudnn;
     CHECK_CUDNN(cudnnCreate(&cudnn));
 
     // 输入数据（N=1, C=3, H=8, W=8）
-    int H = 512;
-    int W = 512;
-    int L = 512;
-    int T = 512;
+    // int H = 512;
+    // int W = 512;
+    // int L = 512;
+    // int T = 512;
     double *input_data_h;
     input_data_h = (double*)malloc(1 * 1 * H * W * L * sizeof(double));
 
