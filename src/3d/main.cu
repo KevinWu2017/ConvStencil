@@ -587,7 +587,8 @@ int main(int argc, char *argv[]) {
 
     // print brief info
 
-    printf("INFO: shape = %s, h = %d, m = %d, n = %d, times = %d\n", ShapeStr[compute_shape], h, m, n, times);
+    // printf("INFO: shape = %s, h = %d, m = %d, n = %d, times = %d\n", ShapeStr[compute_shape], h, m, n, times);
+    std::cout << "ConvStencil, " << ShapeStr[compute_shape] << ", " << h << ", " << m << ", " << n << ", " << times << ", ";
 
     int heights = h + 2 * halo;
     int rows = m + 2 * halo;

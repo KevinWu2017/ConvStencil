@@ -171,7 +171,8 @@ int main(int argc, char *argv[])
 
     // print brief info
 
-    printf("INFO: shape = %s,  n = %d, times = %d\n", ShapeStr[compute_shape], n, times);
+    // printf("INFO: shape = %s,  n = %d, times = %d\n", ShapeStr[compute_shape], n, times);
+    std::cout << "ConvStencil, " << ShapeStr[compute_shape] << ", , , " << n << ", " << times << ", ";
 
     int cols = n + 2 * HALO; //+1
 
