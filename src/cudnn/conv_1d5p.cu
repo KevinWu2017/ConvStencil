@@ -29,6 +29,8 @@
       return 1;
     }
 
+    std::cout << "Cudnn, " << "1d2r" << ", 1, 1, " << W << ", " << T << ", ";
+
     cudnnHandle_t cudnn;
     CHECK_CUDNN(cudnnCreate(&cudnn));
 
@@ -162,10 +164,11 @@
                                             data[(t + 1) % 2]));
     }
     std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
-    std::cout << "Time = " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << "[ms]" << std::endl;
+    // std::cout << "Time = " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << "[ms]" << std::endl;
     
     double secs = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() / 1e6;
-    printf("GStencil/s = %f\n", ((double)H * W * T) / secs / 1e9);
+    // printf("GStencil/s = %f\n", ((double)H * W * T) / secs / 1e9);
+    std::cout <<  std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << ", " << ((double)H * W * T) / secs / 1e9 << std::endl;
 
     cudaMemcpy(output_data_h, output_data, batch_size * channels * height * width * sizeof(double), cudaMemcpyDeviceToHost);
 
