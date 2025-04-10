@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
       return 1;
     }
 
-    std::cout << "Cudnn, " << "2d1r" << ", 1, " << H << ", " << W << ", " << T << ", ";
+    std::cout << "Cudnn, " << "2d3r" << ", 1, " << H << ", " << W << ", " << T << ", ";
 
     cudnnHandle_t cudnn;
     CHECK_CUDNN(cudnnCreate(&cudnn));
