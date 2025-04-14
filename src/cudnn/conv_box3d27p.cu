@@ -200,7 +200,7 @@ do                                                    \
     // std::cout << "Time = " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << "[ms]" << std::endl;
     
     double secs = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() / 1e6;
-    std::cout << secs << std::endl;
+    // std::cout << secs << std::endl;
     // printf("GStencil/s = %f\n", ((double)H * W * L * T) / secs / 1e9);
     std::cout <<  std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << ", " << ((double)H * W * L * T) / secs / 1e9 << std::endl;
 
