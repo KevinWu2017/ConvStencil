@@ -202,7 +202,7 @@ do                                                    \
     double secs = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() / 1e6;
     // std::cout << secs << std::endl;
     // printf("GStencil/s = %f\n", ((double)H * W * L * T) / secs / 1e9);
-    std::cout <<  std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << ", " << ((double)H * W * L * T) / secs / 1e9 << std::endl;
+    std::cout <<  std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << ", " << ((double)H * W * L) / secs / 1e9 * T << std::endl;
 
     CUDA_CHECK(cudaMemcpy(output_data_h, output_data, outputDims[0]*outputDims[1]*outputDims[2]*outputDims[3]*outputDims[4] * sizeof(double), cudaMemcpyDeviceToHost));
     // for (int i = 500 * 500 * 499; i < 500 * 500 * 500; i++) {

@@ -328,7 +328,7 @@ void gpu_box_2d1r(const double * __restrict__ in, double * __restrict__ out, con
 
     // printf("GStencil/s = %f\n", ((double)input_m * input_n * times * 3) / secs / 1e9);
 
-    std::cout <<  std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << ", " << ((double)input_m * input_n * times * 3) / secs / 1e9 << std::endl;
+    std::cout <<  std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << ", " << ((double)input_m * input_n) / secs / 1e9 * times * 3 << std::endl;
     
     CUDA_CHECK(cudaMemcpy(out, array_d[i % 2], array_size, cudaMemcpyDeviceToHost));
 
@@ -421,7 +421,7 @@ void gpu_box_2d3r(const double * __restrict__ in, double * __restrict__ out, con
 
     // printf("GStencil/s = %f\n", ((double)input_m * input_n * times) / secs / 1e9);
 
-    std::cout <<  std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << ", " << ((double)input_m * input_n * times) / secs / 1e9 << std::endl;
+    std::cout <<  std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << ", " << ((double)input_m * input_n) / secs / 1e9 * times << std::endl;
     
     CUDA_CHECK(cudaMemcpy(out, array_d[i % 2], array_size, cudaMemcpyDeviceToHost));
 

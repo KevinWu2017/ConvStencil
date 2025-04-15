@@ -530,7 +530,7 @@ void gpu_box_3d1r(const double * __restrict__ in, double * __restrict__ out, con
     // std::cout << secs << std::endl;
     // printf("GStencil/s = %f\n", ((double)input_m * input_n * input_h * times * 3) / secs / 1e9);
 
-    std::cout <<  std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << ", " << ((double)input_m * input_n * input_h * times * 3) / secs / 1e9 << std::endl;
+    std::cout <<  std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << ", " << ((double)input_m * input_n * input_h) / secs / 1e9 * times * 3 << std::endl;
     
     CUDA_CHECK(cudaMemcpy(out, array_d[i % 2], array_size, cudaMemcpyDeviceToHost));
 

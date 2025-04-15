@@ -153,7 +153,7 @@ void gpu_star_1d2r_step2(const double *__restrict__ in, double *__restrict__ out
     // std::cout << secs << std::endl;
     // printf("GStencil/s = %f\n", ((double)input_n * times * 2) / secs / 1e9);
     
-    std::cout <<  std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << ", " << ((double)input_n * times * 2) / secs / 1e9 << std::endl;
+    std::cout <<  std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << ", " << ((double)input_n) / secs / 1e9 * times * 2 << std::endl;
 
     CUDA_CHECK(cudaMemcpy(out, array_d[i % 2] , array_size - sizeof(double), cudaMemcpyDeviceToHost));
 

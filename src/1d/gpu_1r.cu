@@ -296,7 +296,7 @@ void gpu_1d1r(const double *__restrict__ in, double *__restrict__ out, const dou
     double secs = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() / 1e6;
     // printf("GStencil/s = %f\n", ((double)input_n * times * 3) / secs / 1e9);
 
-    std::cout <<  std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << ", " << ((double)input_n * times * 3) / secs / 1e9 << std::endl;
+    std::cout <<  std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << ", " << ((double)input_n) / secs / 1e9 * times * 3 << std::endl;
 
     CUDA_CHECK(cudaMemcpy(out, array_d[i % 2] + 1, array_size - sizeof(double), cudaMemcpyDeviceToHost));
 
