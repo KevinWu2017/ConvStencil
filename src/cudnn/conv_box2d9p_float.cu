@@ -30,7 +30,7 @@
       return 1;
     }
 
-    std::cout << "Cudnn, " << "2d1r" << ", 1, " << H << ", " << W << ", " << T << ", ";
+    std::cout << "Cudnn, " << "2d1r_float" << ", 1, " << H << ", " << W << ", " << T << ", ";
 
     cudnnHandle_t cudnn;
     CHECK_CUDNN(cudnnCreate(&cudnn));
@@ -38,44 +38,44 @@
     // int H = 10000;
     // int W = 10000;
     // int T = 10000;
-    double *input_data_h;
-    input_data_h = (double*)malloc(1 * 1 * H * W * sizeof(double));
+    float *input_data_h;
+    input_data_h = (float*)malloc(1 * 1 * H * W * sizeof(float));
 
     for (int i = 0; i < H * W; i++) {
         input_data_h[i] = 1.0f;
     }
 
-    double *data[2];
-    double *input_data;
-    cudaMalloc(&input_data, 1 * 1 * H * W * sizeof(double));
-    cudaMemcpy(input_data, input_data_h, 1 * 1 * H * W * sizeof(double), cudaMemcpyHostToDevice);
+    float *data[2];
+    float *input_data;
+    cudaMalloc(&input_data, 1 * 1 * H * W * sizeof(float));
+    cudaMemcpy(input_data, input_data_h, 1 * 1 * H * W * sizeof(float), cudaMemcpyHostToDevice);
     data[0] = input_data;
 
     cudnnTensorDescriptor_t input_descriptor;
     CHECK_CUDNN(cudnnCreateTensorDescriptor(&input_descriptor));
     CHECK_CUDNN(cudnnSetTensor4dDescriptor(input_descriptor,
                                            /*format=*/CUDNN_TENSOR_NHWC,
-                                           /*dataType=*/CUDNN_DATA_DOUBLE,
+                                           /*dataType=*/CUDNN_DATA_FLOAT,
                                            /*batch_size=*/1,
                                            /*channels=*/1,
                                            /*image_height=*/H,
                                            /*image_width=*/W));
 
-    double *filter_data_h;
-    filter_data_h = (double*)malloc(1 * 1 * 3 * 3 * sizeof(double));
+    float *filter_data_h;
+    filter_data_h = (float*)malloc(1 * 1 * 3 * 3 * sizeof(float));
 
     for (int i = 0; i < 3 * 3; i++) {
         filter_data_h[i] = 0.1111f;
     }
 
-    double *filter_data;
-    cudaMalloc(&filter_data, 1 * 1 * 3 * 3 * sizeof(double));
-    cudaMemcpy(filter_data, filter_data_h, 1 * 1 * 3 * 3 * sizeof(double), cudaMemcpyHostToDevice);
+    float *filter_data;
+    cudaMalloc(&filter_data, 1 * 1 * 3 * 3 * sizeof(float));
+    cudaMemcpy(filter_data, filter_data_h, 1 * 1 * 3 * 3 * sizeof(float), cudaMemcpyHostToDevice);
 
     cudnnFilterDescriptor_t filter_descriptor;
     CHECK_CUDNN(cudnnCreateFilterDescriptor(&filter_descriptor));
     CHECK_CUDNN(cudnnSetFilter4dDescriptor(filter_descriptor,
-                                           /*dataType=*/CUDNN_DATA_DOUBLE,
+                                           /*dataType=*/CUDNN_DATA_FLOAT,
                                            /*format=*/CUDNN_TENSOR_NCHW,
                                            /*out_channels=*/1,
                                            /*in_channels=*/1,
@@ -92,7 +92,8 @@
                                                 /*dilation_height=*/1,
                                                 /*dilation_width=*/1,
                                                 /*mode=*/CUDNN_CROSS_CORRELATION,
-                                                /*computeType=*/CUDNN_DATA_DOUBLE));
+                                                /*computeType=*/CUDNN_DATA_FLOAT));
+    // ! This CUDNN_TENSOR_OP_MATH_ALLOW_CONVERSIONCUDNN_TENSOR_OP_MATH_ALLOW_CONVERSION flag is needed for CUDNN to use TF32 data type with tensor cores on Ampere GPUs.
     CHECK_CUDNN(cudnnSetConvolutionMathType(convolution_descriptor, CUDNN_TENSOR_OP_MATH_ALLOW_CONVERSION));
 
     // 计算输出数据尺寸
@@ -105,24 +106,24 @@
                                                       &height,
                                                       &width));
 
-    double *output_data_h;
-    output_data_h = (double*)malloc(batch_size * channels * height * width * sizeof(double));
+    float *output_data_h;
+    output_data_h = (float*)malloc(batch_size * channels * height * width * sizeof(float));
 
-    double *output_data;
-    cudaMalloc(&output_data, batch_size * channels * height * width * sizeof(double));
+    float *output_data;
+    cudaMalloc(&output_data, batch_size * channels * height * width * sizeof(float));
     data[1] = output_data;
 
     cudnnTensorDescriptor_t output_descriptor;
     CHECK_CUDNN(cudnnCreateTensorDescriptor(&output_descriptor));
     CHECK_CUDNN(cudnnSetTensor4dDescriptor(output_descriptor,
                                            /*format=*/CUDNN_TENSOR_NHWC,
-                                           /*dataType=*/CUDNN_DATA_DOUBLE,
+                                           /*dataType=*/CUDNN_DATA_FLOAT,
                                            /*batch_size=*/batch_size,
                                            /*channels=*/channels,
                                            /*image_height=*/height,
                                            /*image_width=*/width));
 
-    double alpha = 1.0f, beta = 0.0f;
+    float alpha = 1.0f, beta = 0.0f;
     cudnnConvolutionFwdAlgo_t convolution_algorithm = CUDNN_CONVOLUTION_FWD_ALGO_IMPLICIT_PRECOMP_GEMM;
     // CHECK_CUDNN(
     //     cudnnFindConvolutionForwardAlgorithm(cudnn,

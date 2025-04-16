@@ -59,6 +59,15 @@ set_target_properties(
 target_compile_options(cudnn_box2d9p PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:-O3 -lineinfo -lcudnn --use_fast_math>)
 target_link_libraries(cudnn_box2d9p ${CUDA_LIBRARIES} cudnn)
 
+add_executable(cudnn_box2d9p_float src/cudnn/conv_box2d9p_float.cu)
+target_link_libraries( cudnn_box2d9p_float ${CUDA_cudnn_LIBRARY})
+set_target_properties(
+    cudnn_box2d9p_float
+    PROPERTIES
+    CUDA_SEPARABLE_COMPILATION ON)
+target_compile_options(cudnn_box2d9p_float PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:-O3 -lineinfo -lcudnn --use_fast_math>)
+target_link_libraries(cudnn_box2d9p_float ${CUDA_LIBRARIES} cudnn)
+
 add_executable(cudnn_box3d27p src/cudnn/conv_box3d27p.cu)
 target_link_libraries( cudnn_box2d9p ${CUDA_cudnn_LIBRARY})
 set_target_properties(
