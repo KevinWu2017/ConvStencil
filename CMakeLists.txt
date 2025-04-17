@@ -22,60 +22,33 @@ set_target_properties(
     CUDA_SEPARABLE_COMPILATION ON)
 target_compile_options(convstencil_1d PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:-O3 -lineinfo --use_fast_math>)
 
-
-add_executable(cudnn_1d3p src/cudnn/conv_1d3p.cu)
-target_link_libraries( cudnn_1d3p ${CUDA_cudnn_LIBRARY})
-set_target_properties(
-    cudnn_1d3p
+# 定义一个函数来添加cuDNN可执行文件，统一处理共同配置
+function(add_cudnn_executable target_name source_file)
+  add_executable(${target_name} ${source_file})
+  target_link_libraries(${target_name} ${CUDA_cudnn_LIBRARY})
+  set_target_properties(
+    ${target_name}
     PROPERTIES
     CUDA_SEPARABLE_COMPILATION ON)
-target_compile_options(cudnn_1d3p PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:-O3 -lineinfo -lcudnn --use_fast_math>)
-target_link_libraries(cudnn_1d3p ${CUDA_LIBRARIES} cudnn)
+  target_compile_options(${target_name} PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:-O3 -lineinfo -lcudnn --use_fast_math>)
+  target_link_libraries(${target_name} ${CUDA_LIBRARIES} cudnn)
+endfunction()
 
-add_executable(cudnn_1d5p src/cudnn/conv_1d5p.cu)
-target_link_libraries( cudnn_1d5p ${CUDA_cudnn_LIBRARY})
-set_target_properties(
-    cudnn_1d5p
-    PROPERTIES
-    CUDA_SEPARABLE_COMPILATION ON)
-target_compile_options(cudnn_1d5p PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:-O3 -lineinfo -lcudnn --use_fast_math>)
-target_link_libraries(cudnn_1d5p ${CUDA_LIBRARIES} cudnn)
+# 使用函数添加所有cuDNN可执行文件
+add_cudnn_executable(cudnn_1d3p src/cudnn/conv_1d3p.cu)
 
-add_executable(cudnn_box2d49p src/cudnn/conv_box2d49p.cu)
-target_link_libraries( cudnn_box2d49p ${CUDA_cudnn_LIBRARY})
-set_target_properties(
-    cudnn_box2d49p
-    PROPERTIES
-    CUDA_SEPARABLE_COMPILATION ON)
-target_compile_options(cudnn_box2d49p PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:-O3 -lineinfo -lcudnn --use_fast_math>)
-target_link_libraries(cudnn_box2d49p ${CUDA_LIBRARIES} cudnn)
+add_cudnn_executable(cudnn_1d5p src/cudnn/conv_1d5p.cu)
 
-add_executable(cudnn_box2d9p src/cudnn/conv_box2d9p.cu)
-target_link_libraries( cudnn_box2d9p ${CUDA_cudnn_LIBRARY})
-set_target_properties(
-    cudnn_box2d9p
-    PROPERTIES
-    CUDA_SEPARABLE_COMPILATION ON)
-target_compile_options(cudnn_box2d9p PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:-O3 -lineinfo -lcudnn --use_fast_math>)
-target_link_libraries(cudnn_box2d9p ${CUDA_LIBRARIES} cudnn)
+add_cudnn_executable(cudnn_box2d49p src/cudnn/conv_box2d49p.cu)
+add_cudnn_executable(cudnn_box2d49p_float src/cudnn/conv_box2d49p_float.cu)
+add_cudnn_executable(cudnn_box2d49p_half src/cudnn/conv_box2d49p_half.cu)
 
-add_executable(cudnn_box2d9p_float src/cudnn/conv_box2d9p_float.cu)
-target_link_libraries( cudnn_box2d9p_float ${CUDA_cudnn_LIBRARY})
-set_target_properties(
-    cudnn_box2d9p_float
-    PROPERTIES
-    CUDA_SEPARABLE_COMPILATION ON)
-target_compile_options(cudnn_box2d9p_float PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:-O3 -lineinfo -lcudnn --use_fast_math>)
-target_link_libraries(cudnn_box2d9p_float ${CUDA_LIBRARIES} cudnn)
+add_cudnn_executable(cudnn_box2d9p src/cudnn/conv_box2d9p.cu)
+add_cudnn_executable(cudnn_box2d9p_float src/cudnn/conv_box2d9p_float.cu)
+add_cudnn_executable(cudnn_box2d9p_half src/cudnn/conv_box2d9p_half.cu)
 
-add_executable(cudnn_box3d27p src/cudnn/conv_box3d27p.cu)
-target_link_libraries( cudnn_box2d9p ${CUDA_cudnn_LIBRARY})
-set_target_properties(
-    cudnn_box3d27p
-    PROPERTIES
-    CUDA_SEPARABLE_COMPILATION ON)
-target_compile_options(cudnn_box3d27p PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:-O3 -lineinfo -lcudnn --use_fast_math>)
-target_link_libraries(cudnn_box3d27p ${CUDA_LIBRARIES} cudnn)
+add_cudnn_executable(cudnn_box3d27p src/cudnn/conv_box3d27p.cu)
+
 
 add_executable(convstencil_2d src/2d/main.cu src/2d/gpu.cu src/2d/2d_utils.h)
 # target_link_libraries( gpu_box2d1r ${CUDA_cusparse_LIBRARY} ${CUDA_cublas_LIBRARY} )
