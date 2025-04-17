@@ -14,7 +14,7 @@
     }                                                       \
   }
 
-  int main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) {
     if (argc < 4) {
         std::cerr << "Usage: " << argv[0] << " input_size_of_first_dimension input_size_of_second_dimension time_iteration_size" << std::endl;
         return 1;
@@ -31,14 +31,14 @@
       return 1;
     }
 
-    std::cout << "Cudnn, " << "2d1r_half" << ", 1, " << H << ", " << W << ", " << T << ", ";
+    std::cout << "Cudnn, " << "2d3r_half" << ", 1, " << H << ", " << W << ", " << T << ", ";
 
     cudnnHandle_t cudnn;
     CHECK_CUDNN(cudnnCreate(&cudnn));
 
     // int H = 10000;
     // int W = 10000;
-    // int T = 10000;
+    // int T = 100;
     half *input_data_h;
     input_data_h = (half*)malloc(1 * 1 * H * W * sizeof(half));
 
@@ -63,15 +63,15 @@
                                            /*image_width=*/W));
 
     half *filter_data_h;
-    filter_data_h = (half*)malloc(1 * 1 * 3 * 3 * sizeof(half));
+    filter_data_h = (half*)malloc(1 * 1 * 7 * 7 * sizeof(half));
 
-    for (int i = 0; i < 3 * 3; i++) {
+    for (int i = 0; i < 7 * 7; i++) {
         filter_data_h[i] = 0.1111f;
     }
 
     half *filter_data;
-    cudaMalloc(&filter_data, 1 * 1 * 3 * 3 * sizeof(half));
-    cudaMemcpy(filter_data, filter_data_h, 1 * 1 * 3 * 3 * sizeof(half), cudaMemcpyHostToDevice);
+    cudaMalloc(&filter_data, 1 * 1 * 7 * 7 * sizeof(half));
+    cudaMemcpy(filter_data, filter_data_h, 1 * 1 * 7 * 7 * sizeof(half), cudaMemcpyHostToDevice);
 
     cudnnFilterDescriptor_t filter_descriptor;
     CHECK_CUDNN(cudnnCreateFilterDescriptor(&filter_descriptor));
@@ -80,14 +80,14 @@
                                            /*format=*/CUDNN_TENSOR_NCHW,
                                            /*out_channels=*/1,
                                            /*in_channels=*/1,
-                                           /*kernel_height=*/3,
-                                           /*kernel_width=*/3));
+                                           /*kernel_height=*/7,
+                                           /*kernel_width=*/7));
 
     cudnnConvolutionDescriptor_t convolution_descriptor;
     CHECK_CUDNN(cudnnCreateConvolutionDescriptor(&convolution_descriptor));
     CHECK_CUDNN(cudnnSetConvolution2dDescriptor(convolution_descriptor,
-                                                /*pad_height=*/1,
-                                                /*pad_width=*/1,
+                                                /*pad_height=*/3,
+                                                /*pad_width=*/3,
                                                 /*vertical_stride=*/1,
                                                 /*horizontal_stride=*/1,
                                                 /*dilation_height=*/1,

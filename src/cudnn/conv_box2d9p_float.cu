@@ -173,7 +173,7 @@
 
     std::cout <<  std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << ", " << ((double)H * W) / secs / 1e9 * T << std::endl;
 
-    cudaMemcpy(output_data_h, output_data, batch_size * channels * height * width * sizeof(double), cudaMemcpyDeviceToHost);
+    cudaMemcpy(output_data_h, output_data, batch_size * channels * height * width * sizeof(float), cudaMemcpyDeviceToHost);
 
 
 
