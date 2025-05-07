@@ -43,6 +43,8 @@ add_cudnn_executable(cudnn_box2d49p src/cudnn/conv_box2d49p.cu)
 add_cudnn_executable(cudnn_box2d49p_float src/cudnn/conv_box2d49p_float.cu)
 add_cudnn_executable(cudnn_box2d49p_half src/cudnn/conv_box2d49p_half.cu)
 
+add_cudnn_executable(cudnn_box2d25p src/cudnn/conv_box2d25p.cu)
+
 add_cudnn_executable(cudnn_box2d9p src/cudnn/conv_box2d9p.cu)
 add_cudnn_executable(cudnn_box2d9p_float src/cudnn/conv_box2d9p_float.cu)
 add_cudnn_executable(cudnn_box2d9p_half src/cudnn/conv_box2d9p_half.cu)
