@@ -143,6 +143,7 @@ void gpu_star_1d2r_step2(const double *__restrict__ in, double *__restrict__ out
     for (; i < times; i++)
     {
         CUDAKERNELCHECK((gpu_star_1d2r_step2_kernel<<<grid_config, block_config>>>(array_d[i % 2] , array_d[(i + 1) % 2]))); 
+        cudaDeviceSynchronize();
     }
     CUDA_CHECK(cudaDeviceSynchronize());
 

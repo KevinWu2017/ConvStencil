@@ -286,6 +286,7 @@ void gpu_1d1r(const double *__restrict__ in, double *__restrict__ out, const dou
     for (; i < times; i++)
     {
         CUDAKERNELCHECK((gpu_1d1r_kernel<<<grid_config, block_config>>>(array_d[i % 2] , array_d[(i + 1) % 2], lookup_table1_d, lookup_table2_d))); // 为了对齐空了4个  
+        cudaDeviceSynchronize();
     }
     CUDA_CHECK(cudaDeviceSynchronize());
 
