@@ -53,12 +53,19 @@ add_cudnn_executable(cudnn_box3d27p src/cudnn/conv_box3d27p.cu)
 
 
 add_executable(convstencil_2d src/2d/main.cu src/2d/gpu.cu src/2d/2d_utils.h)
+add_executable(convstencil_2d_float src/2d/main_float.cu src/2d/gpu_2d_7r_float.cu src/2d/2d_utils.h)
 # target_link_libraries( gpu_box2d1r ${CUDA_cusparse_LIBRARY} ${CUDA_cublas_LIBRARY} )
 set_target_properties(
     convstencil_2d
     PROPERTIES
     CUDA_SEPARABLE_COMPILATION ON)
 target_compile_options(convstencil_2d PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:-O3 -lineinfo --use_fast_math>)
+
+set_target_properties(
+    convstencil_2d_float
+    PROPERTIES
+    CUDA_SEPARABLE_COMPILATION ON)
+target_compile_options(convstencil_2d_float PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:-O3 -lineinfo --use_fast_math>)
 
 add_executable(convstencil_3d src/3d/main.cu src/3d/gpu_box.cu src/3d/gpu_star.cu  src/3d/3d_utils.h)
 # target_link_libraries( gpu_box2d1r ${CUDA_cusparse_LIBRARY} ${CUDA_cublas_LIBRARY} )

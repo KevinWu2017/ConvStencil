@@ -29,7 +29,7 @@ static const size_t device_alignment = 32;
 
 #define DATA_TYPE double
 
-#define TENSOR_CORE_M 8
+// #define TENSOR_CORE_M 8
 
 #pragma once
 #define CUDAKERNELCHECK(expr)                                                               \
@@ -85,3 +85,5 @@ void gpu_box_2d1r_breakdown3(const double * __restrict__ in, double * __restrict
 void gpu_box_2d1r_breakdown2(const double * __restrict__ in, double * __restrict__ out, const double * __restrict__ params, const int time, const int input_m, const int input_n);
 
 void gpu_box_2d1r_breakdown1(const double * __restrict__ in, double * __restrict__ out, const double * __restrict__ params, const int time, const int input_m, const int input_n);
+
+void gpu_box_2d1r_float(const float * __restrict__ in, float * __restrict__ out, const float * __restrict__ params, const int time, const int input_m, const int input_n);
