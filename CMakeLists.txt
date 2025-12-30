@@ -50,6 +50,7 @@ add_cudnn_executable(cudnn_box2d9p_float src/cudnn/conv_box2d9p_float.cu)
 add_cudnn_executable(cudnn_box2d9p_half src/cudnn/conv_box2d9p_half.cu)
 
 add_cudnn_executable(cudnn_box3d27p src/cudnn/conv_box3d27p.cu)
+add_cudnn_executable(cudnn_box3d27p_float src/cudnn/conv_box3d27p_float.cu)
 
 
 add_executable(convstencil_2d src/2d/main.cu src/2d/gpu.cu src/2d/2d_utils.h)
